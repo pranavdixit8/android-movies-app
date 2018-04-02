@@ -15,12 +15,7 @@ import com.squareup.picasso.Picasso;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
-    String[] mMovieImages = {"Movie1",
-                                "Movie2",
-                                "Movie3","Movie4", "Movie5", "Movie6", "Movie7", "Movie8",
-            "Movie9","Movie10", "Movie11", "Movie12", "Movie13", "Movie14",
-            "Movie15","Movie16", "Movie17", "Movie18", "Movie19", "Movie20"
-                                };
+    String[] mMovieImages;
 
 
     @Override
