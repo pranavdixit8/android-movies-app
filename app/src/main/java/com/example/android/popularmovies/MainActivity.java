@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.android.popularmovies.Utilities.JSONUtils;
 import com.example.android.popularmovies.Utilities.NetworkUtils;
@@ -12,6 +14,9 @@ import com.example.android.popularmovies.Utilities.NetworkUtils;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String POPULAR_QUERY = "popular";
+    private static final String RATED_QUERY = "top_rated";
 
     RecyclerView mRecylerView;
     MovieAdapter mMovieAdapter;
@@ -33,7 +38,27 @@ public class MainActivity extends AppCompatActivity {
         loadMovieImages("popular");
 
     }
-    void loadMovieImages( String selection){
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.action_popular){
+            loadMovieImages(POPULAR_QUERY);
+            return true;
+        }else if(id == R.id.action_rated){
+            loadMovieImages(RATED_QUERY);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    void loadMovieImages(String selection){
         URL url = NetworkUtils.buildURL(selection);
         new MovieTask().execute(url);
     }
