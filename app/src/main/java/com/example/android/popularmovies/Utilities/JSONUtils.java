@@ -12,19 +12,26 @@ import org.json.JSONObject;
 
 public class JSONUtils {
 
+    private static final String MOVIES_ARRAY = "results";
+    private static final String MOVIE_IMAGE_KEY = "poster_path";
+    private static final String MOVIE_TITLE_KEY = "title";
+    private static final String MOVIE_OVERVIEW_KEY = "overview";
+    private static final String MOVIE_DATE_KEY = "release_date";
+    private static final String MOVIE_RATING_KEY = "vote_average";
+
     public static String[] getImagePathsFromJSON(Context context, String movieJsonString) throws JSONException {
 
         String[] movieImages = null;
 
         JSONObject movieJson = new JSONObject(movieJsonString);
-        JSONArray movieArray = movieJson.getJSONArray("results");
+        JSONArray movieArray = movieJson.getJSONArray(MOVIES_ARRAY);
         movieImages = new String[movieArray.length()];
 
         for(int i =0 ; i< movieArray.length();i++){
 
             JSONObject movie = movieArray.getJSONObject(i);
 
-            String imagePath = movie.getString("poster_path");
+            String imagePath = movie.getString(MOVIE_IMAGE_KEY);
 
             imagePath = imagePath.split("/")[1];
 
@@ -39,7 +46,7 @@ public class JSONUtils {
         String[][] movieDetails = null;
 
         JSONObject movieJson = new JSONObject(movieJsonString);
-        JSONArray movieArray = movieJson.getJSONArray("results");
+        JSONArray movieArray = movieJson.getJSONArray(MOVIES_ARRAY);
         movieDetails = new String[movieArray.length()][5];
 
         for(int i =0 ; i< movieArray.length();i++){
@@ -47,16 +54,16 @@ public class JSONUtils {
             JSONObject movie = movieArray.getJSONObject(i);
 
             String[] movieDetail = new String[5];
-            movieDetail[0] = movie.getString("title");
+            movieDetail[0] = movie.getString(MOVIE_TITLE_KEY);
 
-            String image = movie.getString("poster_path");
+            String image = movie.getString(MOVIE_IMAGE_KEY);
             image = image.split("/")[1];
             String imagePath = NetworkUtils.buildImagePath(image);
             movieDetail[1] = imagePath;
 
-            movieDetail[2] = movie.getString("overview");
-            movieDetail[3] = String.valueOf(movie.getLong("vote_average"));
-            movieDetail[4] = movie.getString("release_date");
+            movieDetail[2] = movie.getString(MOVIE_OVERVIEW_KEY);
+            movieDetail[3] = String.valueOf(movie.getLong(MOVIE_RATING_KEY));
+            movieDetail[4] = movie.getString(MOVIE_DATE_KEY);
 
             movieDetails[i] = movieDetail;
 
