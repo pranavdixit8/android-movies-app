@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
-    String[] mMovieImages;
+    String[][] mMovieImages;
 
     MovieOnClickListener movieOnClickListener;
 
@@ -46,7 +46,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
 
-        String movieImage = mMovieImages[position];
+        String movieImage = mMovieImages[position][1];
         Picasso.with(holder.mMovieImageView.getContext()).load(movieImage).into(holder.mMovieImageView);
 
 

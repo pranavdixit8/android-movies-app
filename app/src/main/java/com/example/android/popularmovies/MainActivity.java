@@ -74,16 +74,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
 
-    class MovieTask extends AsyncTask<URL, Void,String[]>{
+    class MovieTask extends AsyncTask<URL, Void,String[][]>{
 
         @Override
-        protected String[] doInBackground(URL... params) {
+        protected String[][] doInBackground(URL... params) {
             URL url = params[0];
 
 
             try {
                 String apiResponse = NetworkUtils.getResponseFromAPI(url);
-                String[] imagePaths = JSONUtils.getImagePathsFromJSON(MainActivity.this,apiResponse);
+                String[][] imagePaths = JSONUtils.getMovieDetailsFromJSON(MainActivity.this,apiResponse);
                 return imagePaths;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         }
 
         @Override
-        protected void onPostExecute(String[] strings) {
+        protected void onPostExecute(String[][] strings) {
             if(strings !=null){
                 mMovieAdapter.mMovieImages= strings;
                 mMovieAdapter.notifyDataSetChanged();
