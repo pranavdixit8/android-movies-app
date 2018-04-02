@@ -21,7 +21,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     interface MovieOnClickListener{
 
-        void movieOnclick();
+        void movieOnclick(String[] movieDetail);
     }
 
     MovieAdapter(MovieOnClickListener clickListener){
@@ -72,7 +72,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         @Override
         public void onClick(View v) {
 
-            movieOnClickListener.movieOnclick();
+            int position = getAdapterPosition();
+            String[] movieDetail = mMovieImages[position];
+
+            movieOnClickListener.movieOnclick(movieDetail);
 
         }
     }
