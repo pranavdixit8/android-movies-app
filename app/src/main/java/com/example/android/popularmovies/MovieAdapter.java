@@ -17,6 +17,17 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     String[] mMovieImages;
 
+    MovieOnClickListener movieOnClickListener;
+
+    interface MovieOnClickListener{
+
+        void movieOnclick();
+    }
+
+    MovieAdapter(MovieOnClickListener clickListener){
+        movieOnClickListener = clickListener;
+    }
+
 
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -47,7 +58,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         return mMovieImages.length;
     }
 
-    class MovieViewHolder extends RecyclerView.ViewHolder{
+    class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView mMovieImageView;
 
@@ -55,7 +66,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         public MovieViewHolder(View itemView) {
             super(itemView);
             mMovieImageView = (ImageView) itemView.findViewById(R.id.iv_movie_image);
+            itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View v) {
+
+            movieOnClickListener.movieOnclick();
+
+        }
     }
 }

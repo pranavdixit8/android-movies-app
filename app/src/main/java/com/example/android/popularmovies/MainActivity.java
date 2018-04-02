@@ -1,5 +1,7 @@
 package com.example.android.popularmovies;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +15,7 @@ import com.example.android.popularmovies.Utilities.NetworkUtils;
 
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieOnClickListener {
 
     private static final String POPULAR_QUERY = "popular";
     private static final String RATED_QUERY = "top_rated";
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mRecylerView = (RecyclerView) findViewById(R.id.movies_recyclerview);
-        mMovieAdapter = new MovieAdapter();
+        mMovieAdapter = new MovieAdapter(this);
 
         GridLayoutManager layoutManager = new GridLayoutManager(MainActivity.this,2);
 
@@ -61,6 +63,14 @@ public class MainActivity extends AppCompatActivity {
     void loadMovieImages(String selection){
         URL url = NetworkUtils.buildURL(selection);
         new MovieTask().execute(url);
+    }
+
+    @Override
+    public void movieOnclick() {
+        Context context = this;
+        Class destinationClass = DetailActivity.class;
+        Intent intent = new Intent(context, destinationClass);
+        startActivity(intent);
     }
 
 
