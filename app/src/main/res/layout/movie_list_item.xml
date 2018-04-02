@@ -6,6 +6,7 @@
     <ImageView
         android:id="@+id/iv_movie_image"
         android:layout_width="match_parent"
-        android:layout_height= "wrap_content" />
+        android:scaleY="1.1"
+        android:layout_height= "320dp" />
 
 </LinearLayout>
