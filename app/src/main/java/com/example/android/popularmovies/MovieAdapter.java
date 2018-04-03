@@ -17,7 +17,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     String[][] mMovieImages;
 
-    MovieOnClickListener movieOnClickListener;
+    private final MovieOnClickListener movieOnClickListener;
 
     interface MovieOnClickListener{
 
@@ -60,7 +60,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        ImageView mMovieImageView;
+        final ImageView mMovieImageView;
 
 
         public MovieViewHolder(View itemView) {

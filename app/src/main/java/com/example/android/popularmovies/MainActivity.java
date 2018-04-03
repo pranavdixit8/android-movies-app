@@ -20,8 +20,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private static final String POPULAR_QUERY = "popular";
     private static final String RATED_QUERY = "top_rated";
 
-    RecyclerView mRecylerView;
-    MovieAdapter mMovieAdapter;
+    private RecyclerView mRecylerView;
+    private MovieAdapter mMovieAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         return super.onOptionsItemSelected(item);
     }
 
-    void loadMovieImages(String selection){
+    private void loadMovieImages(String selection){
         URL url = NetworkUtils.buildURL(selection);
         new MovieTask().execute(url);
     }
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
             try {
                 String apiResponse = NetworkUtils.getResponseFromAPI(url);
-                String[][] imagePaths = JSONUtils.getMovieDetailsFromJSON(MainActivity.this,apiResponse);
+                String[][] imagePaths = JSONUtils.getMovieDetailsFromJSON(apiResponse);
                 return imagePaths;
             } catch (Exception e) {
                 e.printStackTrace();

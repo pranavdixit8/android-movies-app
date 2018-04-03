@@ -1,7 +1,5 @@
 package com.example.android.popularmovies.Utilities;
 
-import android.content.Context;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,13 +17,13 @@ public class JSONUtils {
     private static final String MOVIE_DATE_KEY = "release_date";
     private static final String MOVIE_RATING_KEY = "vote_average";
 
-    public static String[] getImagePathsFromJSON(Context context, String movieJsonString) throws JSONException {
+    public static String[] getImagePathsFromJSON(String movieJsonString) throws JSONException {
 
-        String[] movieImages = null;
+//        String[] movieImages = null;
 
         JSONObject movieJson = new JSONObject(movieJsonString);
         JSONArray movieArray = movieJson.getJSONArray(MOVIES_ARRAY);
-        movieImages = new String[movieArray.length()];
+        String[] movieImages = new String[movieArray.length()];
 
         for(int i =0 ; i< movieArray.length();i++){
 
@@ -41,13 +39,13 @@ public class JSONUtils {
 
     }
 
-    public static String[][] getMovieDetailsFromJSON(Context context, String movieJsonString) throws JSONException {
+    public static String[][] getMovieDetailsFromJSON(String movieJsonString) throws JSONException {
 
-        String[][] movieDetails = null;
+//        String[][] movieDetails = null;
 
         JSONObject movieJson = new JSONObject(movieJsonString);
         JSONArray movieArray = movieJson.getJSONArray(MOVIES_ARRAY);
-        movieDetails = new String[movieArray.length()][5];
+        String[][] movieDetails = new String[movieArray.length()][5];
 
         for(int i =0 ; i< movieArray.length();i++){
 

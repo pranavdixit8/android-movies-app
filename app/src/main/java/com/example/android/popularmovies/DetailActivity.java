@@ -10,13 +10,13 @@ import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends AppCompatActivity {
 
-    TextView mTitleTextView;
-    ImageView mImageView;
-    TextView mOverviewTextView;
-    TextView mRatingTextView;
-    TextView mReleaseDate;
+    private TextView mTitleTextView;
+    private ImageView mImageView;
+    private TextView mOverviewTextView;
+    private TextView mRatingTextView;
+    private TextView mReleaseDate;
 
-    String[] mDetail;
+    private String[] mDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
