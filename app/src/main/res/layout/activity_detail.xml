@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
         android:id="@+id/activity_detail"
         android:layout_width="match_parent"
@@ -50,6 +51,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="40sp"
+                    android:paddingBottom="5dp"
+                    />
+                <CheckBox
+                    android:id="@+id/cb_favourite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="?android:attr/starStyle"
+                    android:checked="false"
+                    android:onClick="onClickAddFavouriteMovie"
                     />
             </LinearLayout>
 
@@ -61,7 +71,63 @@
             android:textSize="15sp"
             android:padding="10dp"
             />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_trailers_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/colorPrimaryDark"
+            android:padding="10dp"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/videos_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_reviews_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/colorPrimaryDark"
+            android:padding="10dp"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/reviews_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+        
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
     </LinearLayout>
+
+
+
 
 
 </ScrollView>
