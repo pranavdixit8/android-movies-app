@@ -2,6 +2,7 @@ package com.example.android.popularmovies;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +10,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
+import com.example.android.popularmovies.Data.FavouriteMoviesContract;
 import com.example.android.popularmovies.Utilities.JSONUtils;
 import com.example.android.popularmovies.Utilities.NetworkUtils;
 
@@ -19,15 +23,22 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     private static final String POPULAR_QUERY = "popular";
     private static final String RATED_QUERY = "top_rated";
+    private static final String FAVOURITE_QUERY = "favourite";
 
     private RecyclerView mRecylerView;
     private MovieAdapter mMovieAdapter;
+    private ProgressBar mLoadingIndicator;
+
+
+
+    String mSelection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading);
         mRecylerView = (RecyclerView) findViewById(R.id.movies_recyclerview);
         mMovieAdapter = new MovieAdapter(this);
 
@@ -37,8 +48,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         mRecylerView.setAdapter(mMovieAdapter);
 
-        loadMovieImages("popular");
+        showLoading();
 
+        loadMovieImages(POPULAR_QUERY);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        new MovieTask().execute();
     }
 
     @Override
@@ -56,13 +75,29 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         }else if(id == R.id.action_rated){
             loadMovieImages(RATED_QUERY);
             return true;
+        }else if (id == R.id.action_favourites){
+            loadMovieImages(FAVOURITE_QUERY);
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void loadMovieImages(String selection){
-        URL url = NetworkUtils.buildURL(selection);
-        new MovieTask().execute(url);
+
+        mSelection = selection;
+        new MovieTask().execute();
+    }
+
+    private void showLoading() {
+
+        mRecylerView.setVisibility(View.INVISIBLE);
+        mLoadingIndicator.setVisibility(View.VISIBLE);
+    }
+
+    private void showMovieImages(){
+
+        mRecylerView.setVisibility(View.VISIBLE);
+        mLoadingIndicator.setVisibility(View.INVISIBLE);
+
     }
 
     @Override
@@ -75,17 +110,37 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
 
-    class MovieTask extends AsyncTask<URL, Void,String[][]>{
+    class MovieTask extends AsyncTask<Void, Void,String[][]>{
+
 
         @Override
-        protected String[][] doInBackground(URL... params) {
-            URL url = params[0];
+        protected String[][] doInBackground(Void... params) {
 
+            String[][] movieDetails;
 
             try {
-                String apiResponse = NetworkUtils.getResponseFromAPI(url);
-                String[][] imagePaths = JSONUtils.getMovieDetailsFromJSON(apiResponse);
-                return imagePaths;
+
+                switch (mSelection){
+
+                    case POPULAR_QUERY:
+                    case RATED_QUERY:
+                        URL url = NetworkUtils.buildURL(mSelection);
+                        String apiResponse = NetworkUtils.getResponseFromAPI(url);
+                        movieDetails = JSONUtils.getMovieDetailsFromJSON(apiResponse);
+                        return movieDetails;
+                    case FAVOURITE_QUERY:
+                        Cursor cursor = getContentResolver().query(FavouriteMoviesContract.MovieItem.CONTENT_URI,
+                                null,
+                                null,
+                                null,
+                                FavouriteMoviesContract.MovieItem.MOVIE_RATING);
+
+                        movieDetails = JSONUtils.getMovieDetailsFromCursor(cursor);
+                        return movieDetails;
+                    default:
+                        throw new UnsupportedOperationException("Selection not supported");
+
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
@@ -94,11 +149,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         @Override
         protected void onPostExecute(String[][] strings) {
-            if(strings !=null){
                 mMovieAdapter.mMovieImages= strings;
                 mMovieAdapter.notifyDataSetChanged();
+                if(strings.length !=0 && strings!=null){
+                    showMovieImages();
+                }
 
-            }
         }
     }
 }
