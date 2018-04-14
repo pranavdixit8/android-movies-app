@@ -2,4 +2,6 @@
     <string name="app_name">PopularMovies</string>
     <string name="popular">Popular</string>
     <string name="top_rated">Top Rated</string>
+    <string name="action_favourites">Favourites</string>
+    <string name="error_message">Something went wrong, please try again</string>
 </resources>
