@@ -25,6 +25,14 @@ public class NetworkUtils {
     private  static final String MOVIE_TOKEN = "movie";
     private static final String API_QUERY = "api_key";
 
+    //REVIEW URL CONSTANTS
+
+    public static final String REVIEW_TOKEN = "reviews";
+
+    // VIDEOS URL CONSTANTS
+
+    public static final String VIDEOS_TOKEN = "videos";
+
     public static String buildImagePath(String imageName){
 
         Uri uri = Uri.parse(IMAGE_PATH_BASE).buildUpon()
@@ -33,6 +41,26 @@ public class NetworkUtils {
                 .build();
         return uri.toString();
     }
+
+    public static URL buildReviewVideoURL(long id,String token){
+
+        Uri uri = Uri.parse(MOVIEDB_BASE).buildUpon()
+                .appendPath(MOVIE_TOKEN)
+                .appendPath(String.valueOf(id))
+                .appendPath(token)
+                .appendQueryParameter(API_QUERY, API_KEY)
+                .build();
+
+        URL url =null;
+        try {
+            url = new URL(uri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+
 
     public static URL buildURL(String menuSelection){
         Uri uri = Uri.parse(MOVIEDB_BASE).buildUpon()
