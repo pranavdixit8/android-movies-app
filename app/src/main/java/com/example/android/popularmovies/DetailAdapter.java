@@ -1,29 +1,20 @@
 package com.example.android.popularmovies;
 
 import android.content.Context;
-import android.net.LinkAddress;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import static android.content.ContentValues.TAG;
 
 public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailViewHolder>{
     String[] data;
-    private String mType;
-    private String keyTag;
+    private final String mType;
     private final DetailAdapterOnCLickHandler mClickHandler;
 
     DetailAdapter(String type, DetailAdapterOnCLickHandler onCLickHandler){
@@ -55,7 +46,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
     @Override
     public void onBindViewHolder(DetailAdapter.DetailViewHolder holder, int position) {
 
-        Log.d(TAG, "onBindViewHolder: is data null check:  " + data.length + " " +data);
+
 
         if(data==null || data.length ==0){
 
@@ -79,8 +70,6 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
         else if( mType.equals("video")){
 
             String name = detail.split("####")[0];
-            String key = detail.split("####")[1];
-
             holder.mReviewLinearLayout.setVisibility(View.INVISIBLE);
             holder.mVideoLinearLayout.setVisibility(View.VISIBLE);
             holder.mVideoTextView.setText(name);
@@ -108,7 +97,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
         final TextView mErrorTextView;
 
 
-        public DetailViewHolder(View itemView) {
+        DetailViewHolder(View itemView) {
             super(itemView);
             mVideoTextView = (TextView) itemView.findViewById(R.id.tv_videos);
             mVideoLinearLayout = (LinearLayout) itemView.findViewById(R.id.ll_videos);

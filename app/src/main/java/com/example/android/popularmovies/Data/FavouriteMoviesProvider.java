@@ -22,7 +22,7 @@ public class FavouriteMoviesProvider extends ContentProvider {
     private FavouriteMoviesDBHelper mMoviesDBHelper;
 
 
-    public static UriMatcher buildUriMatcher(){
+    private static UriMatcher buildUriMatcher(){
 
         UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         String authority = FavouriteMoviesContract.CONTENT_AUTHORITY;

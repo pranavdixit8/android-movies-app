@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/activity_detail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:context="com.example.android.popularmovies.DetailActivity">
 
@@ -34,7 +34,8 @@
                 android:layout_height="200dp"
                 android:layout_gravity="start"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"/>
+                android:paddingRight="10dp"
+                android:contentDescription="Movie Thumbnail" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

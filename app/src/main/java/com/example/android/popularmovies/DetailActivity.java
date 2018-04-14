@@ -1,23 +1,19 @@
 package com.example.android.popularmovies;
 
-import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,9 +21,6 @@ import com.example.android.popularmovies.Data.FavouriteMoviesContract;
 import com.example.android.popularmovies.Utilities.JSONUtils;
 import com.example.android.popularmovies.Utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.net.URL;
 
@@ -58,7 +51,6 @@ public class DetailActivity extends AppCompatActivity implements DetailAdapter.D
 
     private String[] mDetail;
     private int mMovieId;
-    private String videoKey;
     private boolean isFavourite = false;
 
     private RecyclerView mReviewRecyclerView;
@@ -108,6 +100,8 @@ public class DetailActivity extends AppCompatActivity implements DetailAdapter.D
                     isFavourite = true;
                 }
 
+                cursor.close();
+
                 mTitleTextView.setText(mDetail[1]);
                 Picasso.with(this).load(mDetail[2]).into(mImageView);
                 mOverviewTextView.setText(mDetail[3]);
@@ -126,8 +120,8 @@ public class DetailActivity extends AppCompatActivity implements DetailAdapter.D
             }
         }
 
-        mReviewHeadTextView.setText("Reviews: ");
-        mTrailerHeadTextView.setText("Trailers: ");
+        mReviewHeadTextView.setText(R.string.Reviews);
+        mTrailerHeadTextView.setText(R.string.trailers);
 
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
@@ -152,7 +146,6 @@ public class DetailActivity extends AppCompatActivity implements DetailAdapter.D
             mCheckBox.setChecked(true);
 
             ContentValues contentValues = new ContentValues();
-            Log.d(TAG, "I AM HERE 1:  " );
 
             contentValues.put(FavouriteMoviesContract.MovieItem._ID, mMovieId);
             contentValues.put(MOVIE_TITLE, mDetail[1]);
@@ -161,21 +154,22 @@ public class DetailActivity extends AppCompatActivity implements DetailAdapter.D
             contentValues.put(MOVIE_RATING,Long.parseLong(mDetail[4]));
             contentValues.put(MOVIE_RELEASE_DATE,mDetail[5]);
 
-            Log.d(TAG, "I AM HERE 1:  " );
 
             Uri uri = getContentResolver().insert(FavouriteMoviesContract.MovieItem.CONTENT_URI, contentValues);
             Log.d(TAG, "onClickAddFavouriteMovie:  " + uri);
             if(uri != null) {
-                Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Favourite Added", Toast.LENGTH_LONG).show();
             }
 
         }
         else{
             mCheckBox.setChecked(false);
             String id = Integer.toString(mMovieId);
-            Log.d(TAG, "onClickAddFavouriteMovie: I AM HERE  ");
             Uri uri = FavouriteMoviesContract.MovieItem.CONTENT_URI.buildUpon().appendPath(id).build();
-            getBaseContext().getContentResolver().delete(uri,null,null);
+            int _d = getBaseContext().getContentResolver().delete(uri,null,null);
+            if(_d>0){
+                Toast.makeText(getBaseContext(), "Favourite Removed", Toast.LENGTH_LONG).show();
+            }
 
         }
     }
@@ -210,8 +204,6 @@ public class DetailActivity extends AppCompatActivity implements DetailAdapter.D
                         String[] reviews = JSONUtils.getMovieDetailsFromReviewJSON(reviewResponse);
 
                         if(reviews!=null) {
-                            Log.d(TAG, "doInBackground: data " + mReviewAdapter.data);
-                            Log.d(TAG, "doInBackground: reviewscount " + reviews.length);
                             reviewVideos[0] = reviews;
                         }
                         URL videoURL = NetworkUtils.buildReviewVideoURL(mMovieId,NetworkUtils.VIDEOS_TOKEN);
@@ -219,8 +211,6 @@ public class DetailActivity extends AppCompatActivity implements DetailAdapter.D
                         String[] videos = JSONUtils.getMovieDetailsFromVideoJSON(videoResponse);
 
                         if(videos!=null) {
-                            Log.d(TAG, "doInBackground: data " + mVideoAdapter.data);
-                            Log.d(TAG, "doInBackground: videoscount" + videos.length);
                             reviewVideos[1] = videos;
                         }
 

@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
 
 
-    String mSelection;
+    private String mSelection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,16 +69,22 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.action_popular){
-            loadMovieImages(POPULAR_QUERY);
-            return true;
-        }else if(id == R.id.action_rated){
-            loadMovieImages(RATED_QUERY);
-            return true;
-        }else if (id == R.id.action_favourites){
-            loadMovieImages(FAVOURITE_QUERY);
+
+        switch (id) {
+            case R.id.action_popular:
+                loadMovieImages(POPULAR_QUERY);
+                return true;
+
+            case R.id.action_rated:
+                loadMovieImages(RATED_QUERY);
+                return true;
+
+            case R.id.action_favourites:
+                loadMovieImages(FAVOURITE_QUERY);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     private void loadMovieImages(String selection){
@@ -110,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
 
-    class MovieTask extends AsyncTask<Void, Void,String[][]>{
+     class MovieTask extends AsyncTask<Void, Void,String[][]>{
 
 
         @Override

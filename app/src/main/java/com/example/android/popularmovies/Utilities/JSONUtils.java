@@ -15,7 +15,7 @@ import org.json.JSONObject;
 public class JSONUtils {
 
     private static final String MOVIE_ID = "id";
-    public static final String MOVIES_ARRAY = "results";
+    private static final String MOVIES_ARRAY = "results";
     private static final String MOVIE_IMAGE_KEY = "poster_path";
     private static final String MOVIE_TITLE_KEY = "title";
     private static final String MOVIE_OVERVIEW_KEY = "overview";
@@ -29,27 +29,27 @@ public class JSONUtils {
     private static final String MOVIE_VIDEO_KEY = "key" ;
 
 
-    public static String[] getImagePathsFromJSON(String movieJsonString) throws JSONException {
-
-//        String[] movieImages = null;
-
-        JSONObject movieJson = new JSONObject(movieJsonString);
-        JSONArray movieArray = movieJson.getJSONArray(MOVIES_ARRAY);
-        String[] movieImages = new String[movieArray.length()];
-
-        for(int i =0 ; i< movieArray.length();i++){
-
-            JSONObject movie = movieArray.getJSONObject(i);
-
-            String imagePath = movie.getString(MOVIE_IMAGE_KEY);
-
-            imagePath = imagePath.split("/")[1];
-
-            movieImages[i] = NetworkUtils.buildImagePath(imagePath);
-        }
-        return movieImages;
-
-    }
+//    public static String[] getImagePathsFromJSON(String movieJsonString) throws JSONException {
+//
+////        String[] movieImages = null;
+//
+//        JSONObject movieJson = new JSONObject(movieJsonString);
+//        JSONArray movieArray = movieJson.getJSONArray(MOVIES_ARRAY);
+//        String[] movieImages = new String[movieArray.length()];
+//
+//        for(int i =0 ; i< movieArray.length();i++){
+//
+//            JSONObject movie = movieArray.getJSONObject(i);
+//
+//            String imagePath = movie.getString(MOVIE_IMAGE_KEY);
+//
+//            imagePath = imagePath.split("/")[1];
+//
+//            movieImages[i] = NetworkUtils.buildImagePath(imagePath);
+//        }
+//        return movieImages;
+//
+//    }
 
     public static String[][] getMovieDetailsFromJSON(String movieJsonString) throws JSONException {
 
@@ -100,7 +100,7 @@ public class JSONUtils {
             movieDetail[0] = String.valueOf(cursor.getInt(cursor.getColumnIndex(FavouriteMoviesContract.MovieItem._ID)));
             movieDetail[1] = cursor.getString(cursor.getColumnIndex(FavouriteMoviesContract.MovieItem.MOVIE_TITLE));
 
-            movieDetail[2] = cursor.getString(cursor.getColumnIndex(FavouriteMoviesContract.MovieItem.MOVIE_POSTER));;
+            movieDetail[2] = cursor.getString(cursor.getColumnIndex(FavouriteMoviesContract.MovieItem.MOVIE_POSTER));
 
             movieDetail[3] = cursor.getString(cursor.getColumnIndex(FavouriteMoviesContract.MovieItem.MOVIE_SYNOPSIS));
             movieDetail[4] = String.valueOf(cursor.getLong(cursor.getColumnIndex(FavouriteMoviesContract.MovieItem.MOVIE_RATING)));

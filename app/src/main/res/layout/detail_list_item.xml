@@ -15,8 +15,8 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@android:drawable/ic_media_play"
-            android:backgroundTint="@color/colorAccent"
-            />
+            android:background="@color/colorAccent"
+            android:contentDescription="Image Button" />
         <TextView
             android:id="@+id/tv_videos"
             android:layout_gravity="center"
@@ -39,7 +39,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:text="Author:  "
+                android:text="@string/author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.AppCompat.Caption"
@@ -59,7 +59,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:text="Review:  "
+                android:text="@string/review"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.AppCompat.Caption"
