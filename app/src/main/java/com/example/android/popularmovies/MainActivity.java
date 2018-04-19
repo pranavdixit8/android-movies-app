@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private static final String RATED_QUERY = "top_rated";
     private static final String FAVOURITE_QUERY = "favourite";
     private static final String QUERY_OPTION = "option";
+    private static final String IMAGES_KEY = "images";
 
     private RecyclerView mRecylerView;
     private MovieAdapter mMovieAdapter;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
 
 
-    private String mSelection = POPULAR_QUERY;
+    private String mSelection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,16 +65,20 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         showLoading();
 
         if(savedInstanceState !=null){
+            mMovieAdapter.mMovieImages = (String[][]) savedInstanceState.getSerializable(IMAGES_KEY);
             mSelection = savedInstanceState.getString(QUERY_OPTION);
-        }
-        loadMovieImages(mSelection);
+            mMovieAdapter.notifyDataSetChanged();
+            showMovieImages();
+        }else
+        loadMovieImages(POPULAR_QUERY);
 
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
-        outState.putString(QUERY_OPTION, mSelection);
+        outState.putSerializable(IMAGES_KEY, mMovieAdapter.mMovieImages);
+        outState.putString(QUERY_OPTION,mSelection);
         super.onSaveInstanceState(outState);
 
     }
@@ -81,8 +86,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     protected void onStart() {
         super.onStart();
-        new MovieTask().execute();
+        Log.d(TAG, "onStart: ");
+        Log.d(TAG, "onStart: " + mSelection);
+        if(mSelection==FAVOURITE_QUERY){
+            new MovieTask().execute();
+        }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
