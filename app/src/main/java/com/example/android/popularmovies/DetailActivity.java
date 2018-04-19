@@ -17,20 +17,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.popularmovies.Data.FavouriteMoviesContract;
-import com.example.android.popularmovies.Utilities.JSONUtils;
-import com.example.android.popularmovies.Utilities.NetworkUtils;
+import com.example.android.popularmovies.data.FavouriteMoviesContract;
+import com.example.android.popularmovies.utilities.JSONUtils;
+import com.example.android.popularmovies.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 import java.net.URL;
 
-import static com.example.android.popularmovies.Data.FavouriteMoviesContract.MovieItem.CONTENT_URI;
+import static com.example.android.popularmovies.data.FavouriteMoviesContract.MovieItem.CONTENT_URI;
 
-import static com.example.android.popularmovies.Data.FavouriteMoviesContract.MovieItem.MOVIE_POSTER;
-import static com.example.android.popularmovies.Data.FavouriteMoviesContract.MovieItem.MOVIE_RATING;
-import static com.example.android.popularmovies.Data.FavouriteMoviesContract.MovieItem.MOVIE_RELEASE_DATE;
-import static com.example.android.popularmovies.Data.FavouriteMoviesContract.MovieItem.MOVIE_SYNOPSIS;
-import static com.example.android.popularmovies.Data.FavouriteMoviesContract.MovieItem.MOVIE_TITLE;
+import static com.example.android.popularmovies.data.FavouriteMoviesContract.MovieItem.MOVIE_POSTER;
+import static com.example.android.popularmovies.data.FavouriteMoviesContract.MovieItem.MOVIE_RATING;
+import static com.example.android.popularmovies.data.FavouriteMoviesContract.MovieItem.MOVIE_RELEASE_DATE;
+import static com.example.android.popularmovies.data.FavouriteMoviesContract.MovieItem.MOVIE_SYNOPSIS;
+import static com.example.android.popularmovies.data.FavouriteMoviesContract.MovieItem.MOVIE_TITLE;
 
 public class DetailActivity extends AppCompatActivity implements DetailAdapter.DetailAdapterOnCLickHandler {
 

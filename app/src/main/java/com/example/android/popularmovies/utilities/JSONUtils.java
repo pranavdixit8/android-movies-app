@@ -1,8 +1,8 @@
-package com.example.android.popularmovies.Utilities;
+package com.example.android.popularmovies.utilities;
 
 import android.database.Cursor;
 
-import com.example.android.popularmovies.Data.FavouriteMoviesContract;
+import com.example.android.popularmovies.data.FavouriteMoviesContract;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -1,9 +1,9 @@
-package com.example.android.popularmovies.Data;
+package com.example.android.popularmovies.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.example.android.popularmovies.Data.FavouriteMoviesContract.*;
+import com.example.android.popularmovies.data.FavouriteMoviesContract.*;
 
 public class FavouriteMoviesDBHelper extends SQLiteOpenHelper{
 
