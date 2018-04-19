@@ -1,4 +1,4 @@
-package com.example.android.popularmovies.Utilities;
+package com.example.android.popularmovies.utilities;
 
 import android.net.Uri;
 
@@ -84,6 +84,9 @@ public class NetworkUtils {
     public static String getResponseFromAPI(URL url) throws IOException {
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
+            urlConnection.setConnectTimeout(5000);
+            urlConnection.setReadTimeout(10000);
+
             InputStream in = urlConnection.getInputStream();
             Scanner sc = new Scanner(in);
             sc.useDelimiter("\\A");
