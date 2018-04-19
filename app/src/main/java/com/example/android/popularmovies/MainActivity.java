@@ -8,30 +8,39 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
-import com.example.android.popularmovies.Data.FavouriteMoviesContract;
-import com.example.android.popularmovies.Utilities.JSONUtils;
-import com.example.android.popularmovies.Utilities.NetworkUtils;
+import com.example.android.popularmovies.data.FavouriteMoviesContract;
+import com.example.android.popularmovies.utilities.JSONUtils;
+import com.example.android.popularmovies.utilities.NetworkUtils;
 
 import java.net.URL;
 
+import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
+import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
+
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieOnClickListener {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private static final String POPULAR_QUERY = "popular";
     private static final String RATED_QUERY = "top_rated";
     private static final String FAVOURITE_QUERY = "favourite";
+    private static final String QUERY_OPTION = "option";
 
     private RecyclerView mRecylerView;
     private MovieAdapter mMovieAdapter;
     private ProgressBar mLoadingIndicator;
+    private TextView mErrorMessage;
 
 
 
-    private String mSelection;
+    private String mSelection = POPULAR_QUERY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +49,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading);
         mRecylerView = (RecyclerView) findViewById(R.id.movies_recyclerview);
-        mMovieAdapter = new MovieAdapter(this);
+        mErrorMessage = (TextView) findViewById(R.id.tv_error_message);
 
+        mMovieAdapter = new MovieAdapter(this);
         GridLayoutManager layoutManager = new GridLayoutManager(MainActivity.this,2);
+        if(getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE){
+            layoutManager = new GridLayoutManager(MainActivity.this,3);
+        }
 
         mRecylerView.setLayoutManager(layoutManager);
 
@@ -50,7 +63,18 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         showLoading();
 
-        loadMovieImages(POPULAR_QUERY);
+        if(savedInstanceState !=null){
+            mSelection = savedInstanceState.getString(QUERY_OPTION);
+        }
+        loadMovieImages(mSelection);
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        outState.putString(QUERY_OPTION, mSelection);
+        super.onSaveInstanceState(outState);
 
     }
 
@@ -106,6 +130,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     }
 
+    private void showErrorMessage() {
+        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        mErrorMessage.setVisibility(View.VISIBLE);
+
+    }
+
     @Override
     public void movieOnclick(String[] movieDetail) {
         Context context = this;
@@ -157,10 +187,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         protected void onPostExecute(String[][] strings) {
                 mMovieAdapter.mMovieImages= strings;
                 mMovieAdapter.notifyDataSetChanged();
-                if(strings.length !=0 && strings!=null){
+            Log.d(TAG, "onPostExecute: " + strings);
+                if(strings!=null){
                     showMovieImages();
-                }
+                }else showErrorMessage();
 
         }
     }
+
+
 }
