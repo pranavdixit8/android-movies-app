@@ -38,6 +38,8 @@ public class DetailActivity extends AppCompatActivity implements DetailAdapter.D
 
     private static final String REVIEW_ADAPTER_TYPE = "review";
     private static final String VIDEO_ADAPTER_TYPE = "video";
+    private static final String REVIEW_KEY = "review_key";
+    private static final String VIDEO_KEY = "video_key";
 
     private TextView mTitleTextView;
     private ImageView mImageView;
@@ -50,6 +52,7 @@ public class DetailActivity extends AppCompatActivity implements DetailAdapter.D
     private TextView mReviewHeadTextView;
 
     private String[] mDetail;
+    private String[] savedDetail;
     private int mMovieId;
     private boolean isFavourite = false;
 
@@ -87,7 +90,17 @@ public class DetailActivity extends AppCompatActivity implements DetailAdapter.D
 
                 mMovieId = Integer.parseInt(mDetail[0]);
 
-                new ReviewVideoTask().execute();
+                if(savedInstanceState==null) {
+                    Log.d(TAG, "onCreate: " + savedInstanceState);
+                    new ReviewVideoTask().execute();
+                }else{
+
+                    Log.d(TAG, "onCreate: "+ savedInstanceState);
+                    mReviewAdapter.data = savedInstanceState.getStringArray(REVIEW_KEY);
+                    mReviewAdapter.notifyDataSetChanged();
+                    mVideoAdapter.data = savedInstanceState.getStringArray(VIDEO_KEY);
+                    mVideoAdapter.notifyDataSetChanged();
+                }
 
                 Uri uri = ContentUris.withAppendedId(CONTENT_URI,mMovieId);
                 Cursor cursor = getContentResolver().query(uri,
@@ -137,7 +150,15 @@ public class DetailActivity extends AppCompatActivity implements DetailAdapter.D
 
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
 
+        Log.d(TAG, "onSaveInstanceState: ");
+
+        outState.putSerializable(REVIEW_KEY,mReviewAdapter.data);
+        outState.putSerializable(VIDEO_KEY, mVideoAdapter.data);
+        super.onSaveInstanceState(outState);
+    }
 
     public void onClickAddFavouriteMovie(View view){
 
